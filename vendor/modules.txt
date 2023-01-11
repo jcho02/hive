@@ -79,7 +79,58 @@ github.com/BurntSushi/toml/internal
 github.com/Djarvur/go-err113
 # github.com/IBM-Cloud/bluemix-go v0.0.0-20211102075456-ffc4e11dfb16
 ## explicit; go 1.13
+github.com/IBM-Cloud/bluemix-go
+github.com/IBM-Cloud/bluemix-go/api/account/accountv2
+github.com/IBM-Cloud/bluemix-go/api/resource/resourcev2/controllerv2
+github.com/IBM-Cloud/bluemix-go/authentication
+github.com/IBM-Cloud/bluemix-go/bmxerror
+github.com/IBM-Cloud/bluemix-go/client
 github.com/IBM-Cloud/bluemix-go/crn
+github.com/IBM-Cloud/bluemix-go/endpoints
+github.com/IBM-Cloud/bluemix-go/helpers
+github.com/IBM-Cloud/bluemix-go/http
+github.com/IBM-Cloud/bluemix-go/models
+github.com/IBM-Cloud/bluemix-go/rest
+github.com/IBM-Cloud/bluemix-go/session
+github.com/IBM-Cloud/bluemix-go/trace
+# github.com/IBM-Cloud/power-go-client v1.1.5
+## explicit; go 1.17
+github.com/IBM-Cloud/power-go-client/clients/instance
+github.com/IBM-Cloud/power-go-client/errors
+github.com/IBM-Cloud/power-go-client/helpers
+github.com/IBM-Cloud/power-go-client/ibmpisession
+github.com/IBM-Cloud/power-go-client/power/client
+github.com/IBM-Cloud/power-go-client/power/client/authentication
+github.com/IBM-Cloud/power-go-client/power/client/bluemix_service_instances
+github.com/IBM-Cloud/power-go-client/power/client/catalog
+github.com/IBM-Cloud/power-go-client/power/client/hardware_platforms
+github.com/IBM-Cloud/power-go-client/power/client/iaas_service_broker
+github.com/IBM-Cloud/power-go-client/power/client/internal_storage_regions
+github.com/IBM-Cloud/power-go-client/power/client/open_stacks
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_cloud_connections
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_events
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_images
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_instances
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_jobs
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_networks
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_p_vm_instances
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_placement_groups
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_s_a_p
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_service_d_h_c_p
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_snapshots
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_storage_capacity
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_system_pools
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_tasks
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_tenants
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_tenants_ssh_keys
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_v_p_n_connections
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_v_p_n_policies
+github.com/IBM-Cloud/power-go-client/power/client/p_cloud_volumes
+github.com/IBM-Cloud/power-go-client/power/client/service_bindings
+github.com/IBM-Cloud/power-go-client/power/client/service_instances
+github.com/IBM-Cloud/power-go-client/power/client/storage_types
+github.com/IBM-Cloud/power-go-client/power/client/swagger_spec
+github.com/IBM-Cloud/power-go-client/power/models
 # github.com/IBM/go-sdk-core/v4 v4.10.0
 ## explicit; go 1.12
 github.com/IBM/go-sdk-core/v4/core
@@ -90,6 +141,9 @@ github.com/IBM/go-sdk-core/v5/core
 ## explicit; go 1.14
 github.com/IBM/networking-go-sdk/common
 github.com/IBM/networking-go-sdk/dnsrecordsv1
+github.com/IBM/networking-go-sdk/dnssvcsv1
+github.com/IBM/networking-go-sdk/dnszonesv1
+github.com/IBM/networking-go-sdk/resourcerecordsv1
 github.com/IBM/networking-go-sdk/zonesv1
 # github.com/IBM/platform-services-go-sdk v0.18.16
 ## explicit; go 1.12
@@ -347,8 +401,17 @@ github.com/go-errors/errors
 # github.com/go-logr/logr v1.2.2
 ## explicit; go 1.16
 github.com/go-logr/logr
-# github.com/go-openapi/errors v0.20.2 => github.com/go-openapi/errors v0.19.2
-## explicit
+# github.com/go-openapi/analysis v0.21.2
+## explicit; go 1.13
+github.com/go-openapi/analysis
+github.com/go-openapi/analysis/internal/debug
+github.com/go-openapi/analysis/internal/flatten/normalize
+github.com/go-openapi/analysis/internal/flatten/operations
+github.com/go-openapi/analysis/internal/flatten/replace
+github.com/go-openapi/analysis/internal/flatten/schutils
+github.com/go-openapi/analysis/internal/flatten/sortref
+# github.com/go-openapi/errors v0.20.2 => github.com/go-openapi/errors v0.20.2
+## explicit; go 1.14
 github.com/go-openapi/errors
 # github.com/go-openapi/jsonpointer v0.19.5
 ## explicit; go 1.13
@@ -356,12 +419,32 @@ github.com/go-openapi/jsonpointer
 # github.com/go-openapi/jsonreference v0.19.6
 ## explicit; go 1.13
 github.com/go-openapi/jsonreference
+# github.com/go-openapi/loads v0.21.1
+## explicit; go 1.13
+github.com/go-openapi/loads
+# github.com/go-openapi/runtime v0.23.0
+## explicit; go 1.15
+github.com/go-openapi/runtime
+github.com/go-openapi/runtime/client
+github.com/go-openapi/runtime/logger
+github.com/go-openapi/runtime/middleware
+github.com/go-openapi/runtime/middleware/denco
+github.com/go-openapi/runtime/middleware/header
+github.com/go-openapi/runtime/middleware/untyped
+github.com/go-openapi/runtime/security
+github.com/go-openapi/runtime/yamlpc
+# github.com/go-openapi/spec v0.20.4 => github.com/go-openapi/spec v0.20.4
+## explicit; go 1.13
+github.com/go-openapi/spec
 # github.com/go-openapi/strfmt v0.21.2
 ## explicit; go 1.13
 github.com/go-openapi/strfmt
 # github.com/go-openapi/swag v0.21.1
 ## explicit; go 1.11
 github.com/go-openapi/swag
+# github.com/go-openapi/validate v0.20.3 => github.com/go-openapi/validate v0.20.3
+## explicit; go 1.14
+github.com/go-openapi/validate
 # github.com/go-playground/locales v0.14.0
 ## explicit; go 1.13
 github.com/go-playground/locales
@@ -418,6 +501,9 @@ github.com/gogo/protobuf/gogoproto
 github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/protoc-gen-gogo/descriptor
 github.com/gogo/protobuf/sortkeys
+# github.com/golang-jwt/jwt v3.2.2+incompatible
+## explicit
+github.com/golang-jwt/jwt
 # github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da
 ## explicit
 github.com/golang/groupcache/lru
@@ -942,6 +1028,7 @@ github.com/openshift/hive/apis/hive/v1/metricsconfig
 github.com/openshift/hive/apis/hive/v1/none
 github.com/openshift/hive/apis/hive/v1/openstack
 github.com/openshift/hive/apis/hive/v1/ovirt
+github.com/openshift/hive/apis/hive/v1/powervs
 github.com/openshift/hive/apis/hive/v1/vsphere
 github.com/openshift/hive/apis/hivecontracts/v1alpha1
 github.com/openshift/hive/apis/hiveinternal/v1alpha1
@@ -955,6 +1042,7 @@ github.com/openshift/installer/pkg/asset/installconfig/azure
 github.com/openshift/installer/pkg/asset/installconfig/gcp
 github.com/openshift/installer/pkg/asset/installconfig/ibmcloud
 github.com/openshift/installer/pkg/asset/installconfig/ovirt
+github.com/openshift/installer/pkg/asset/installconfig/powervs
 github.com/openshift/installer/pkg/asset/installconfig/vsphere
 github.com/openshift/installer/pkg/asset/machines/alibabacloud
 github.com/openshift/installer/pkg/asset/machines/aws
@@ -971,6 +1059,7 @@ github.com/openshift/installer/pkg/destroy/gcp
 github.com/openshift/installer/pkg/destroy/ibmcloud
 github.com/openshift/installer/pkg/destroy/openstack
 github.com/openshift/installer/pkg/destroy/ovirt
+github.com/openshift/installer/pkg/destroy/powervs
 github.com/openshift/installer/pkg/destroy/providers
 github.com/openshift/installer/pkg/destroy/vsphere
 github.com/openshift/installer/pkg/ipnet
@@ -1025,6 +1114,11 @@ github.com/openshift/machine-api-operator/pkg/util/conditions
 # github.com/openshift/machine-api-provider-gcp v0.0.0
 ## explicit
 github.com/openshift/machine-api-provider-gcp/pkg/apis/gcpprovider/v1beta1
+# github.com/opentracing/opentracing-go v1.2.0
+## explicit; go 1.14
+github.com/opentracing/opentracing-go
+github.com/opentracing/opentracing-go/ext
+github.com/opentracing/opentracing-go/log
 # github.com/ovirt/go-ovirt v0.0.0-20210308100159-ac0bcbc88d7c
 ## explicit; go 1.12
 github.com/ovirt/go-ovirt
@@ -2616,9 +2710,9 @@ sigs.k8s.io/yaml
 # sigs.k8s.io/cluster-api-provider-azure => github.com/openshift/cluster-api-provider-azure v0.1.0-alpha.3.0.20210626224711-5d94c794092f
 # sigs.k8s.io/cluster-api-provider-openstack => github.com/openshift/cluster-api-provider-openstack v0.0.0-20211111204942-611d320170af
 # github.com/apparentlymart/go-cidr => github.com/apparentlymart/go-cidr v1.0.1
-# github.com/go-openapi/errors => github.com/go-openapi/errors v0.19.2
-# github.com/go-openapi/spec => github.com/go-openapi/spec v0.19.4
-# github.com/go-openapi/validate => github.com/go-openapi/validate v0.19.8
+# github.com/go-openapi/errors => github.com/go-openapi/errors v0.20.2
+# github.com/go-openapi/spec => github.com/go-openapi/spec v0.20.4
+# github.com/go-openapi/validate => github.com/go-openapi/validate v0.20.3
 # github.com/hashicorp/go-plugin => github.com/hashicorp/go-plugin v1.2.2
 # github.com/ulikunitz/xz => github.com/ulikunitz/xz v0.5.7
 # google.golang.org/api => google.golang.org/api v0.25.0

@@ -25,6 +25,7 @@ import (
 	hivev1ibmcloud "github.com/openshift/hive/apis/hive/v1/ibmcloud"
 	hivev1openstack "github.com/openshift/hive/apis/hive/v1/openstack"
 	hivev1ovirt "github.com/openshift/hive/apis/hive/v1/ovirt"
+	hivev1powervs "github.com/openshift/hive/apis/hive/v1/powervs"
 	hivev1vsphere "github.com/openshift/hive/apis/hive/v1/vsphere"
 )
 
@@ -312,6 +313,10 @@ func validateMachinePoolSpecInvariants(spec *hivev1.MachinePoolSpec, fldPath *fi
 		platforms = append(platforms, "alibabacloud")
 		allErrs = append(allErrs, validateAlibabaCloudMachinePoolPlatformInvariants(p, platformPath.Child("alibabacloud"))...)
 	}
+	if p := spec.Platform.PowerVS; p != nil {
+		platforms = append(platforms, "powervs")
+		allErrs = append(allErrs, validatePowerVSMachinePoolPlatformInvariants(p, platformPath.Child("powervs"))...)
+	}
 
 	switch len(platforms) {
 	case 0:
@@ -435,6 +440,11 @@ func validateIBMCloudMachinePoolPlatformInvariants(platform *hivev1ibmcloud.Mach
 }
 
 func validateAlibabaCloudMachinePoolPlatformInvariants(platform *hivev1alibabacloud.MachinePool, fldPath *field.Path) field.ErrorList {
+	allErrs := field.ErrorList{}
+	return allErrs
+}
+
+func validatePowerVSMachinePoolPlatformInvariants(platform *hivev1powervs.MachinePool, fldPath *field.Path) field.ErrorList {
 	allErrs := field.ErrorList{}
 	return allErrs
 }

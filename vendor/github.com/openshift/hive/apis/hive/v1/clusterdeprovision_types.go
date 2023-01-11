@@ -53,6 +53,8 @@ type ClusterDeprovisionPlatform struct {
 	Ovirt *OvirtClusterDeprovision `json:"ovirt,omitempty"`
 	// IBMCloud contains IBM Cloud specific deprovision settings
 	IBMCloud *IBMClusterDeprovision `json:"ibmcloud,omitempty"`
+	// PowerVS contains PowerVS specific deprovision settings
+	PowerVS *PowerVSClusterDeprovision `json:"powervs,omitempty"`
 }
 
 // AlibabaCloudClusterDeprovision contains AlibabaCloud-specific configuration for a ClusterDeprovision
@@ -141,6 +143,18 @@ type IBMClusterDeprovision struct {
 	CredentialsSecretRef corev1.LocalObjectReference `json:"credentialsSecretRef"`
 	// Region specifies the IBM Cloud region
 	Region string `json:"region"`
+	// BaseDomain is the DNS base domain
+	BaseDomain string `json:"baseDomain"`
+}
+
+// PowerVSClusterDeprovision contains PowerVS specific configuration for a ClusterDeprovision
+type PowerVSClusterDeprovision struct {
+	// CredentialsSecretRef is the IBM Cloud credentials to use for deprovisioning the cluster
+	CredentialsSecretRef corev1.LocalObjectReference `json:"credentialsSecretRef"`
+	// Region specifies the PowerVS region
+	Region string `json:"region"`
+	// Zone specifies the PowerVS zone
+	Zone string `json:"zone"`
 	// BaseDomain is the DNS base domain
 	BaseDomain string `json:"baseDomain"`
 }

@@ -1154,6 +1154,32 @@ objects:
                       - ovirt_cluster_id
                       - storage_domain_id
                       type: object
+                    powervs:
+                      description: PowerVS is the configuration used when installing
+                        on PowerVS
+                      properties:
+                        credentialsSecretRef:
+                          description: CredentialsSecretRef refers to a secret that
+                            contains IBM Cloud account access credentials.
+                          properties:
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                          type: object
+                        region:
+                          description: Region specifies the PowerVS region where the
+                            cluster will be created
+                          type: string
+                        zone:
+                          description: Zone specifies the PowerVS zone where the cluster
+                            will be created
+                          type: string
+                      required:
+                      - credentialsSecretRef
+                      - region
+                      - zone
+                      type: object
                     vsphere:
                       description: VSphere is the configuration used when installing
                         on vSphere
@@ -1850,6 +1876,33 @@ objects:
                       - certificatesSecretRef
                       - clusterID
                       - credentialsSecretRef
+                      type: object
+                    powervs:
+                      description: PowerVS contains PowerVS specific deprovision settings
+                      properties:
+                        baseDomain:
+                          description: BaseDomain is the DNS base domain
+                          type: string
+                        credentialsSecretRef:
+                          description: CredentialsSecretRef is the IBM Cloud credentials
+                            to use for deprovisioning the cluster
+                          properties:
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                          type: object
+                        region:
+                          description: Region specifies the PowerVS region
+                          type: string
+                        zone:
+                          description: Zone specifies the PowerVS zone
+                          type: string
+                      required:
+                      - baseDomain
+                      - credentialsSecretRef
+                      - region
+                      - zone
                       type: object
                     vsphere:
                       description: VSphere contains VMWare vSphere-specific deprovision
@@ -2549,6 +2602,32 @@ objects:
                       - credentialsSecretRef
                       - ovirt_cluster_id
                       - storage_domain_id
+                      type: object
+                    powervs:
+                      description: PowerVS is the configuration used when installing
+                        on PowerVS
+                      properties:
+                        credentialsSecretRef:
+                          description: CredentialsSecretRef refers to a secret that
+                            contains IBM Cloud account access credentials.
+                          properties:
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                          type: object
+                        region:
+                          description: Region specifies the PowerVS region where the
+                            cluster will be created
+                          type: string
+                        zone:
+                          description: Zone specifies the PowerVS zone where the cluster
+                            will be created
+                          type: string
+                      required:
+                      - credentialsSecretRef
+                      - region
+                      - zone
                       type: object
                     vsphere:
                       description: VSphere is the configuration used when installing
@@ -5103,6 +5182,41 @@ objects:
                           - server
                           - high_performance
                           type: string
+                      type: object
+                    powervs:
+                      description: PowerVS is the configuration used when installing
+                        on PowerVS
+                      properties:
+                        memoryGiB:
+                          description: memoryGiB is the size of a virtual machine's
+                            memory, in GiB.
+                          format: int32
+                          type: integer
+                        procType:
+                          description: ProcType defines the processor sharing model
+                            for the instance. Must be one of {Capped, Dedicated, Shared}.
+                          enum:
+                          - Dedicated
+                          - Shared
+                          - Capped
+                          - ''
+                          type: string
+                        processors:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          description: Processors defines the processing units for
+                            the instance.
+                          x-kubernetes-int-or-string: true
+                        sysType:
+                          description: SysType defines the system type for instance.
+                          type: string
+                        volumeIDs:
+                          description: VolumeIDs is the list of volumes attached to
+                            the instance.
+                          items:
+                            type: string
+                          type: array
                       type: object
                     vsphere:
                       description: VSphere is the configuration used when installing

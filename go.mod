@@ -96,7 +96,7 @@ require (
 	github.com/Azure/go-autorest/tracing v0.6.0 // indirect
 	github.com/BurntSushi/toml v0.4.1 // indirect
 	github.com/Djarvur/go-err113 v0.1.0 // indirect
-	github.com/IBM-Cloud/bluemix-go v0.0.0-20211102075456-ffc4e11dfb16 // indirect
+	github.com/IBM-Cloud/bluemix-go v0.0.0-20211102075456-ffc4e11dfb16
 	github.com/IBM/go-sdk-core/v4 v4.10.0 // indirect
 	github.com/MakeNowJust/heredoc v1.0.0 // indirect
 	github.com/Masterminds/semver v1.5.0 // indirect
@@ -341,7 +341,15 @@ require (
 )
 
 require (
+	github.com/IBM-Cloud/power-go-client v1.1.5 // indirect
+	github.com/go-openapi/analysis v0.21.2 // indirect
+	github.com/go-openapi/loads v0.21.1 // indirect
+	github.com/go-openapi/runtime v0.23.0 // indirect
+	github.com/go-openapi/spec v0.20.4 // indirect
+	github.com/go-openapi/validate v0.20.3 // indirect
+	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/google/gnostic v0.5.7-v3refs // indirect
+	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
 )
@@ -370,9 +378,9 @@ replace (
 // The following modules need to be locked to compile correctly with terraform-provider-azure and terraform-provider-google
 replace (
 	github.com/apparentlymart/go-cidr => github.com/apparentlymart/go-cidr v1.0.1
-	github.com/go-openapi/errors => github.com/go-openapi/errors v0.19.2
-	github.com/go-openapi/spec => github.com/go-openapi/spec v0.19.4
-	github.com/go-openapi/validate => github.com/go-openapi/validate v0.19.8
+	github.com/go-openapi/errors => github.com/go-openapi/errors v0.20.2
+	github.com/go-openapi/spec => github.com/go-openapi/spec v0.20.4
+	github.com/go-openapi/validate => github.com/go-openapi/validate v0.20.3
 	github.com/hashicorp/go-plugin => github.com/hashicorp/go-plugin v1.2.2
 	github.com/ulikunitz/xz => github.com/ulikunitz/xz v0.5.7
 	google.golang.org/api => google.golang.org/api v0.25.0

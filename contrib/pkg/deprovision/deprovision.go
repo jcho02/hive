@@ -36,6 +36,7 @@ func NewDeprovisionCommand() *cobra.Command {
 	cmd.AddCommand(NewDeprovisionGCPCommand())
 	cmd.AddCommand(NewDeprovisionIBMCloudCommand())
 	cmd.AddCommand(NewDeprovisionOpenStackCommand())
+	cmd.AddCommand(NewDeprovisionPowerVSCommand())
 	cmd.AddCommand(NewDeprovisionvSphereCommand())
 	cmd.AddCommand(NewDeprovisionOvirtCommand())
 	return cmd
