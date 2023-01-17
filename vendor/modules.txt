@@ -160,8 +160,8 @@ github.com/IBM/platform-services-go-sdk/iamidentityv1
 github.com/IBM/platform-services-go-sdk/iampolicymanagementv1
 github.com/IBM/platform-services-go-sdk/resourcecontrollerv2
 github.com/IBM/platform-services-go-sdk/resourcemanagerv2
-# github.com/IBM/vpc-go-sdk v1.0.1
-## explicit; go 1.14
+# github.com/IBM/vpc-go-sdk v0.20.0
+## explicit; go 1.16
 github.com/IBM/vpc-go-sdk/common
 github.com/IBM/vpc-go-sdk/vpcv1
 # github.com/MakeNowJust/heredoc v1.0.0
@@ -997,9 +997,6 @@ github.com/openshift/cluster-api-provider-ibmcloud/pkg/apis/ibmcloudprovider/v1
 ## explicit; go 1.17
 github.com/openshift/cluster-api-provider-ovirt/pkg/apis
 github.com/openshift/cluster-api-provider-ovirt/pkg/apis/ovirtprovider/v1beta1
-# github.com/openshift/cluster-api-provider-powervs v0.0.1
-## explicit; go 1.15
-github.com/openshift/cluster-api-provider-powervs/pkg/apis/powervsprovider/v1alpha1
 # github.com/openshift/cluster-autoscaler-operator v0.0.0-20211006175002-fe524080b551
 ## explicit; go 1.16
 github.com/openshift/cluster-autoscaler-operator/pkg/apis/autoscaling/v1
@@ -1052,7 +1049,6 @@ github.com/openshift/installer/pkg/asset/machines/gcp
 github.com/openshift/installer/pkg/asset/machines/ibmcloud
 github.com/openshift/installer/pkg/asset/machines/openstack
 github.com/openshift/installer/pkg/asset/machines/ovirt
-github.com/openshift/installer/pkg/asset/machines/powervs
 github.com/openshift/installer/pkg/asset/machines/vsphere
 github.com/openshift/installer/pkg/destroy/alibabacloud
 github.com/openshift/installer/pkg/destroy/aws

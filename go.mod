@@ -10,7 +10,7 @@ require (
 	github.com/IBM/go-sdk-core/v5 v5.9.5
 	github.com/IBM/networking-go-sdk v0.14.0
 	github.com/IBM/platform-services-go-sdk v0.18.16
-	github.com/IBM/vpc-go-sdk v1.0.1
+	github.com/IBM/vpc-go-sdk v0.20.0
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.1458
 	github.com/aws/aws-sdk-go v1.44.51
 	github.com/blang/semver/v4 v4.0.0
@@ -37,7 +37,6 @@ require (
 	github.com/openshift/build-machinery-go v0.0.0-20220913142420-e25cf57ea46d
 	github.com/openshift/cluster-api-provider-ibmcloud v0.0.1-0.20220201105455-8014e5e894b0
 	github.com/openshift/cluster-api-provider-ovirt v0.1.1-0.20220323121149-e3f2850dd519
-	github.com/openshift/cluster-api-provider-powervs v0.0.1
 	github.com/openshift/cluster-autoscaler-operator v0.0.0-20211006175002-fe524080b551
 	github.com/openshift/custom-resource-status v1.1.3-0.20220503160415-f2fdb4999d87
 	github.com/openshift/generic-admission-server v1.14.1-0.20221208154047-0cd6b8367d91
@@ -46,7 +45,7 @@ require (
 	github.com/openshift/library-go v0.0.0-20220525173854-9b950a41acdc
 	github.com/openshift/machine-api-operator v0.2.1-0.20220601192856-d7fb6b5b87ef
 	github.com/openshift/machine-api-provider-gcp v0.0.0
-	github.com/pkg/errors v0.20.2
+	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.50.0
 	github.com/prometheus/client_golang v1.12.2
 	github.com/prometheus/client_model v0.2.0
