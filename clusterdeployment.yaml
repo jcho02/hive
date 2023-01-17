@@ -1,0 +1,143 @@
+apiVersion: v1
+items:
+- apiVersion: hive.openshift.io/v1
+  kind: ClusterDeployment
+  metadata:
+    creationTimestamp: null
+    labels:
+      hive.openshift.io/hiveutil-created: "true"
+    name: rdr-jcho-power-test
+  spec:
+    baseDomain: scnl-ibm.com
+    clusterName: rdr-jcho-power-test
+    controlPlaneConfig:
+      servingCertificates: {}
+    installed: false
+    platform:
+      powervs:
+        credentialsSecretRef:
+          name: rdr-jcho-power-test-powervs-creds
+        region: lon
+        zone: lon04
+    provisioning:
+      imageSetRef:
+        name: rdr-jcho-power-test-imageset
+      installConfigSecretRef:
+        name: rdr-jcho-power-test-install-config
+      manifestsSecretRef:
+        name: rdr-jcho-power-test-manifests
+      sshPrivateKeySecretRef:
+        name: rdr-jcho-power-test-ssh-private-key
+  status: {}
+- apiVersion: hive.openshift.io/v1
+  kind: MachinePool
+  metadata:
+    creationTimestamp: null
+    name: rdr-jcho-power-test-worker
+  spec:
+    clusterDeploymentRef:
+      name: rdr-jcho-power-test
+    name: worker
+    platform:
+      powervs:
+        memoryGiB: 32
+        procType: Shared
+        processors: "0.5"
+        sysType: s922
+    replicas: 3
+  status: {}
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    name: rdr-jcho-power-test-install-config
+  stringData:
+    install-config.yaml: |
+      apiVersion: v1
+      baseDomain: scnl-ibm.com
+      compute:
+      - name: worker
+        platform:
+          powervs:
+            memoryGiB: 32
+            procType: Shared
+            processors: "0.5"
+            sysType: s922
+        replicas: 3
+      controlPlane:
+        name: master
+        platform:
+          powervs:
+            memoryGiB: 32
+            procType: Shared
+            processors: "0.5"
+            sysType: s922
+        replicas: 3
+      credentialsMode: Manual
+      metadata:
+        creationTimestamp: null
+        name: rdr-jcho-power-test
+      networking:
+        clusterNetwork:
+        - cidr: 10.128.0.0/14
+          hostPrefix: 23
+        machineNetwork:
+        - cidr: 10.0.0.0/16
+        networkType: OpenShiftSDN
+        serviceNetwork:
+        - 172.30.0.0/16
+      platform:
+        powervs:
+          powervsResourceGroup: ""
+          region: lon
+          serviceInstanceID: ""
+          userID: ""
+          zone: lon04
+      pullSecret: ""
+      sshKey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIbn6UV3qPs1leWKItr+wkPB48Hk/MzpwnK2vasmcP8e
+        root@the1.fyre.ibm.com
+  type: Opaque
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    name: rdr-jcho-power-test-ssh-private-key
+  stringData:
+    ssh-privatekey: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+      QyNTUxOQAAACCG5+lFd6j7NZXliiLa/sJDwePB5PzM6cJytr2rJnD/HgAAAKAeyIrEHsiK
+      xAAAAAtzc2gtZWQyNTUxOQAAACCG5+lFd6j7NZXliiLa/sJDwePB5PzM6cJytr2rJnD/Hg
+      AAAEDhCisShRnIrxdyjNozNlU+ied+GFZBEhRUaWKc9iwnXYbn6UV3qPs1leWKItr+wkPB
+      48Hk/MzpwnK2vasmcP8eAAAAFnJvb3RAdGhlMS5meXJlLmlibS5jb20BAgMEBQYH
+      -----END OPENSSH PRIVATE KEY-----
+  type: Opaque
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    name: rdr-jcho-power-test-powervs-creds
+  stringData:
+    powervs_api_key: TvPdbv4Ehi49_wJbeUvpzU_CM1qiH2TAiuJpgDQca3Zt
+  type: Opaque
+- apiVersion: v1
+  data:
+    openshift-cloud-controller-manager-ibm-cloud-credentials-credentials.yaml: YXBpVmVyc2lvbjogdjEKa2luZDogU2VjcmV0Cm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogaWJtLWNsb3VkLWNyZWRlbnRpYWxzCiAgbmFtZXNwYWNlOiBvcGVuc2hpZnQtY2xvdWQtY29udHJvbGxlci1tYW5hZ2VyCnN0cmluZ0RhdGE6CiAgaWJtLWNyZWRlbnRpYWxzLmVudjogfC0KICAgIElCTUNMT1VEX0FVVEhUWVBFPWlhbQogICAgSUJNQ0xPVURfQVBJS0VZPW5oS21veTBuR2ExdWxKMzZxbG41MUVDeHZiZ2R1aWt3SXluUVBfMzdVN0ZmCiAgaWJtY2xvdWRfYXBpX2tleTogbmhLbW95MG5HYTF1bEozNnFsbjUxRUN4dmJnZHVpa3dJeW5RUF8zN1U3RmYKdHlwZTogT3BhcXVlCg==
+    openshift-cluster-csi-drivers-ibm-cloud-credentials-credentials.yaml: YXBpVmVyc2lvbjogdjEKa2luZDogU2VjcmV0Cm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogaWJtLWNsb3VkLWNyZWRlbnRpYWxzCiAgbmFtZXNwYWNlOiBvcGVuc2hpZnQtY2x1c3Rlci1jc2ktZHJpdmVycwpzdHJpbmdEYXRhOgogIGlibS1jcmVkZW50aWFscy5lbnY6IHwtCiAgICBJQk1DTE9VRF9BVVRIVFlQRT1pYW0KICAgIElCTUNMT1VEX0FQSUtFWT1IdmpidGhxa1Z4YS1BbnloeERXUU8yUFA4SHN3RURhb2VONDc2Zk9oYjVUdQogIGlibWNsb3VkX2FwaV9rZXk6IEh2amJ0aHFrVnhhLUFueWh4RFdRTzJQUDhIc3dFRGFvZU40NzZmT2hiNVR1CnR5cGU6IE9wYXF1ZQo=
+    openshift-image-registry-installer-cloud-credentials-credentials.yaml: YXBpVmVyc2lvbjogdjEKa2luZDogU2VjcmV0Cm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogaW5zdGFsbGVyLWNsb3VkLWNyZWRlbnRpYWxzCiAgbmFtZXNwYWNlOiBvcGVuc2hpZnQtaW1hZ2UtcmVnaXN0cnkKc3RyaW5nRGF0YToKICBpYm0tY3JlZGVudGlhbHMuZW52OiB8LQogICAgSUJNQ0xPVURfQVVUSFRZUEU9aWFtCiAgICBJQk1DTE9VRF9BUElLRVk9eFp3QXNXaU1qaVJRTGQ5M3ZZSzFpcVczRmtlWnNfLU5JdW5mTmRkQU5MdmsKICBpYm1jbG91ZF9hcGlfa2V5OiB4WndBc1dpTWppUlFMZDkzdllLMWlxVzNGa2Vac18tTkl1bmZOZGRBTkx2awp0eXBlOiBPcGFxdWUK
+    openshift-ingress-operator-cloud-credentials-credentials.yaml: YXBpVmVyc2lvbjogdjEKa2luZDogU2VjcmV0Cm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogY2xvdWQtY3JlZGVudGlhbHMKICBuYW1lc3BhY2U6IG9wZW5zaGlmdC1pbmdyZXNzLW9wZXJhdG9yCnN0cmluZ0RhdGE6CiAgaWJtLWNyZWRlbnRpYWxzLmVudjogfC0KICAgIElCTUNMT1VEX0FVVEhUWVBFPWlhbQogICAgSUJNQ0xPVURfQVBJS0VZPVFwZExaMko4Ym8tbmpLcjQ1TDgzRHRFNjBoUks4Umt2a0wyMEhLU1dRY0MzCiAgaWJtY2xvdWRfYXBpX2tleTogUXBkTFoySjhiby1uaktyNDVMODNEdEU2MGhSSzhSa3ZrTDIwSEtTV1FjQzMKdHlwZTogT3BhcXVlCg==
+    openshift-machine-api-ibmcloud-credentials-credentials.yaml: YXBpVmVyc2lvbjogdjEKa2luZDogU2VjcmV0Cm1ldGFkYXRhOgogIGNyZWF0aW9uVGltZXN0YW1wOiBudWxsCiAgbmFtZTogaWJtY2xvdWQtY3JlZGVudGlhbHMKICBuYW1lc3BhY2U6IG9wZW5zaGlmdC1tYWNoaW5lLWFwaQpzdHJpbmdEYXRhOgogIGlibS1jcmVkZW50aWFscy5lbnY6IHwtCiAgICBJQk1DTE9VRF9BVVRIVFlQRT1pYW0KICAgIElCTUNMT1VEX0FQSUtFWT02YkRaSGxYMi1YeGxvUzRLRGFkbjgtUHZ4WmhBTzhrb0VaZ09qckJGRG5tMgogIGlibWNsb3VkX2FwaV9rZXk6IDZiRFpIbFgyLVh4bG9TNEtEYWRuOC1QdnhaaEFPOGtvRVpnT2pyQkZEbm0yCnR5cGU6IE9wYXF1ZQo=
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+    name: rdr-jcho-power-test-manifests
+- apiVersion: hive.openshift.io/v1
+  kind: ClusterImageSet
+  metadata:
+    creationTimestamp: null
+    name: rdr-jcho-power-test-imageset
+  spec:
+    releaseImage: quay.io/openshift-release-dev/ocp-release:4.12.0-rc.6-ppc64le
+  status: {}
+kind: List
+metadata: {}
