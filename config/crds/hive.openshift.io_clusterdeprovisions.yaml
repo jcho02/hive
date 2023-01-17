@@ -261,6 +261,34 @@ spec:
                     - clusterID
                     - credentialsSecretRef
                     type: object
+                  powervs:
+                    description: PowerVS contains PowerVS specific deprovision settings
+                    properties:
+                      baseDomain:
+                        description: BaseDomain is the DNS base domain
+                        type: string
+                      credentialsSecretRef:
+                        description: CredentialsSecretRef is the IBM Cloud credentials
+                          to use for deprovisioning the cluster
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      region:
+                        description: Region specifies the PowerVS region
+                        type: string
+                      zone:
+                        description: Zone specifies the PowerVS zone
+                        type: string
+                    required:
+                    - baseDomain
+                    - credentialsSecretRef
+                    - region
+                    - zone
+                    type: object
                   vsphere:
                     description: VSphere contains VMWare vSphere-specific deprovision
                       settings
