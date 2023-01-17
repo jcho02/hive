@@ -11,7 +11,7 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 
-	powervsprovider "github.com/openshift/cluster-api-provider-powervs/pkg/apis/powervsprovider/v1"
+	powervsprovider "github.com/openshift/cluster-api-provider-powervs/pkg/apis/powervsprovider/v1alpha1"
 
 	hivev1 "github.com/openshift/hive/apis/hive/v1"
 	hivev1powervs "github.com/openshift/hive/apis/hive/v1/powervs"
@@ -99,6 +99,13 @@ func TestPowerVSActuator(t *testing.T) {
 				}
 
 				for _, ms := range generatedMachineSets {
+					powervsProvider, ok := ms.Spec.Template.Spec.ProviderSpec.Value.Object.(*powervsprovider.PowerVSMachineProviderSpec)
+					if assert.True(t, ok, "failed to convert to powervs provider spec") {
+						assert.Equal(t, testPowerVSMemoryGiB, powervsProvider.MemoryGiB, "unexpected MemoryGiB")
+						assert.Equal(t, testPowerVSProcType, powervsProvider.ProcType, "unexpected ProcType")
+						assert.Equal(t, testPowerVSProcessors, powervsProvider.Processors, "unexpected Processors")
+						assert.Equal(t, testSysType, powervsProvider.SysType, "unexpected SysType")
+					}
 				}
 			}
 		})
@@ -111,7 +118,7 @@ func testPowerVSPool() *hivev1.MachinePool {
 		PowerVS: &hivev1powervs.MachinePool{
 			MemoryGiB:  32,
 			ProcType:   "Shared",
-			Processors: "0.5",
+			Processors: 0.5,
 			SysType:    "s922",
 		},
 	}

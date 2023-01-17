@@ -17,9 +17,12 @@ import (
 	"github.com/IBM/platform-services-go-sdk/resourcecontrollerv2"
 	"github.com/IBM/platform-services-go-sdk/resourcemanagerv2"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
+	"github.com/openshift/hive/pkg/constants"
 	"github.com/pkg/errors"
 
 	"github.com/openshift/installer/pkg/types"
+
+	corev1 "k8s.io/api/core/v1"
 )
 
 //go:generate mockgen -source=./client.go -destination=./mock/powervsclient_generated.go -package=mock
@@ -91,6 +94,14 @@ func NewClient(apiKey string) (*Client, error) {
 	}
 
 	return client, nil
+}
+
+func NewClientFromSecret(secret *corev1.Secret) (*Client, error) {
+	apiKey, ok := secret.Data[constants.PowerVSAPIKeySecretKey]
+	if !ok {
+		return nil, errors.New("creds secret does not contain \"" + constants.PowerVSAPIKeySecretKey + "\" data")
+	}
+	return NewClient(string(apiKey))
 }
 
 func (c *Client) loadSDKServices() error {

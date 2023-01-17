@@ -276,6 +276,7 @@ spec:
                               TODO: Add other useful fields. apiVersion, kind, uid?'
                             type: string
                         type: object
+                        x-kubernetes-map-type: atomic
                       region:
                         description: Region specifies the PowerVS region
                         type: string
