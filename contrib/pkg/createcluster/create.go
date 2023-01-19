@@ -83,7 +83,7 @@ can be used as alternatives to the associated commandline argument.
 These are only relevant for creating a cluster on vSphere.
 
 IC_API_KEY - Used to determine your IBM Cloud API key. Required when
-using --cloud=ibmcloud.
+using --cloud=ibmcloud --cloud=powervs.
 
 RELEASE_IMAGE - Release image to use to install the cluster. If not specified,
 the --release-image flag is used. If that's not specified, a default image is
@@ -99,6 +99,7 @@ const (
 	cloudIBM             = "ibmcloud"
 	cloudOpenStack       = "openstack"
 	cloudOVirt           = "ovirt"
+	cloudPowerVS         = "powervs"
 	cloudVSphere         = "vsphere"
 
 	testFailureManifest = `apiVersion: v1
@@ -119,11 +120,13 @@ var (
 		cloudIBM:       true,
 		cloudOpenStack: true,
 		cloudOVirt:     true,
+		cloudPowerVS:   true,
 		cloudVSphere:   true,
 	}
 	manualCCOModeClouds = map[string]bool{
 		cloudAlibaba: true,
 		cloudIBM:     true,
+		cloudPowerVS: true,
 	}
 )
 
@@ -167,6 +170,7 @@ type Options struct {
 	AdoptAdminPassword                string
 	MachineNetwork                    string
 	Region                            string
+	Zone                              string
 	Labels                            []string
 	Annotations                       []string
 	SkipMachinePools                  bool
@@ -243,6 +247,7 @@ create-cluster CLUSTER_DEPLOYMENT_NAME --cloud=azure --azure-base-domain-resourc
 create-cluster CLUSTER_DEPLOYMENT_NAME --cloud=gcp
 create-cluster CLUSTER_DEPLOYMENT_NAME --cloud=ibmcloud --region="us-east" --base-domain=ibm.hive.openshift.com --manifests=/manifests --credentials-mode-manual
 create-cluster CLUSTER_DEPLOYMENT_NAME --cloud=openstack --openstack-api-floating-ip=192.168.1.2 --openstack-cloud=mycloud
+create-cluster CLUSTER_DEPLOYMENT_NAME --cloud=powervs --region="us-east" --zone="us-east" --base-domain=ibm.hive.openshift.com --manifests=/manifests --credentials-mode-manual
 create-cluster CLUSTER_DEPLOYMENT_NAME --cloud=vsphere --vsphere-vcenter=vmware.devcluster.com --vsphere-datacenter=dc1 --vsphere-default-datastore=nvme-ds1 --vsphere-api-vip=192.168.1.2 --vsphere-ingress-vip=192.168.1.3 --vsphere-cluster=devel --vsphere-network="VM Network" --vsphere-ca-certs=/path/to/cert
 create-cluster CLUSTER_DEPLOYMENT_NAME --cloud=ovirt --ovirt-api-vip 192.168.1.2 --ovirt-dns-vip 192.168.1.3 --ovirt-ingress-vip 192.168.1.4 --ovirt-network-name ovirtmgmt --ovirt-storage-domain-id 00000000-e77a-456b-uuid --ovirt-cluster-id 00000000-8675-11ea-uuid --ovirt-ca-certs ~/.ovirt/ca`,
 		Short: "Creates a new Hive cluster deployment",
@@ -310,7 +315,8 @@ This option is redundant (but permitted) for following clouds, which always use 
 	flags.BoolVar(&opt.CreateSampleSyncsets, "create-sample-syncsets", false, "Create a set of sample syncsets for testing")
 	flags.StringVar(&opt.ManifestsDir, "manifests", "", "Directory containing manifests to add during installation")
 	flags.StringVar(&opt.MachineNetwork, "machine-network", "10.0.0.0/16", "Cluster's MachineNetwork to pass to the installer")
-	flags.StringVar(&opt.Region, "region", "", "Region to which to install the cluster. This is only relevant to Alibaba Cloud, AWS, Azure, GCP and IBM.")
+	flags.StringVar(&opt.Region, "region", "", "Region to which to install the cluster. This is only relevant to Alibaba Cloud, AWS, Azure, GCP, IBM, PowerVS.")
+	flags.StringVar(&opt.Zone, "zone", "", "Zone to which to install the cluster. This is only relevant to PowerVS.")
 	flags.StringSliceVarP(&opt.Labels, "labels", "l", nil, "Label to apply to the ClusterDeployment (key=val). Multiple labels may be delimited by commas (key1=val1,key2=val2).")
 	flags.StringSliceVarP(&opt.Annotations, "annotations", "a", nil, "Annotation to apply to the ClusterDeployment (key=val)")
 	flags.BoolVar(&opt.SkipMachinePools, "skip-machine-pools", false, "Skip generation of Hive MachinePools for day 2 MachineSet management")
@@ -384,6 +390,15 @@ func (o *Options) Complete(cmd *cobra.Command, args []string) error {
 		case cloudGCP:
 			o.Region = "us-east1"
 		case cloudIBM:
+			o.Region = "us-east"
+		case cloudPowerVS:
+			o.Region = "us-east"
+		}
+	}
+
+	if o.Zone == "" {
+		switch o.Cloud {
+		case cloudPowerVS:
 			o.Region = "us-east"
 		}
 	}
@@ -469,9 +484,17 @@ func (o *Options) Validate(cmd *cobra.Command) error {
 
 	if o.Region != "" {
 		switch c := o.Cloud; c {
-		case cloudAlibaba, cloudAWS, cloudAzure, cloudGCP, cloudIBM:
+		case cloudAlibaba, cloudAWS, cloudAzure, cloudGCP, cloudIBM, cloudPowerVS:
 		default:
 			return fmt.Errorf("cannot specify --region when using --cloud=%q", c)
+		}
+	}
+
+	if o.Zone != "" {
+		switch c := o.Cloud; c {
+		case cloudPowerVS:
+		default:
+			return fmt.Errorf("cannot specify --zone when using --cloud=%q", c)
 		}
 	}
 
@@ -811,6 +834,18 @@ func (o *Options) GenerateObjects() ([]runtime.Object, error) {
 			InstanceType: o.IBMInstanceType,
 		}
 		builder.CloudBuilder = ibmCloudProvider
+
+	case cloudPowerVS:
+		powerVSAPIKey := os.Getenv(constants.PowerVSAPIKeyEnvVar)
+		if powerVSAPIKey == "" {
+			return nil, fmt.Errorf("%s env var is required when using --cloud=%q", constants.PowerVSAPIKeyEnvVar, cloudPowerVS)
+		}
+		powervsProvider := &clusterresource.PowerVSBuilder{
+			APIKey: powerVSAPIKey,
+			Region: o.Region,
+			Zone:   o.Zone,
+		}
+		builder.CloudBuilder = powervsProvider
 	}
 
 	if o.Internal {

@@ -50,6 +50,7 @@ import (
 	"github.com/openshift/installer/pkg/destroy/ibmcloud"
 	"github.com/openshift/installer/pkg/destroy/openstack"
 	"github.com/openshift/installer/pkg/destroy/ovirt"
+	"github.com/openshift/installer/pkg/destroy/powervs"
 	"github.com/openshift/installer/pkg/destroy/providers"
 	"github.com/openshift/installer/pkg/destroy/vsphere"
 	installertypes "github.com/openshift/installer/pkg/types"
@@ -59,6 +60,7 @@ import (
 	installertypesibmcloud "github.com/openshift/installer/pkg/types/ibmcloud"
 	installertypesopenstack "github.com/openshift/installer/pkg/types/openstack"
 	installertypesovirt "github.com/openshift/installer/pkg/types/ovirt"
+	installertypespowervs "github.com/openshift/installer/pkg/types/powervs"
 	installertypesvsphere "github.com/openshift/installer/pkg/types/vsphere"
 
 	hivev1 "github.com/openshift/hive/apis/hive/v1"
@@ -70,6 +72,7 @@ import (
 	ibmutils "github.com/openshift/hive/contrib/pkg/utils/ibmcloud"
 	openstackutils "github.com/openshift/hive/contrib/pkg/utils/openstack"
 	ovirtutils "github.com/openshift/hive/contrib/pkg/utils/ovirt"
+	powervsutils "github.com/openshift/hive/contrib/pkg/utils/powervs"
 	vsphereutils "github.com/openshift/hive/contrib/pkg/utils/vsphere"
 	"github.com/openshift/hive/pkg/awsclient"
 	"github.com/openshift/hive/pkg/constants"
@@ -548,6 +551,8 @@ func loadSecrets(m *InstallManager, cd *hivev1.ClusterDeployment) {
 		ovirtutils.ConfigureCreds(m.DynamicClient)
 	case cd.Spec.Platform.IBMCloud != nil:
 		ibmutils.ConfigureCreds(m.DynamicClient)
+	case cd.Spec.Platform.PowerVS != nil:
+		powervsutils.ConfigureCreds(m.DynamicClient)
 	}
 
 	// Load up the install config and pull secret. These env vars are required; else we'll panic.
@@ -821,6 +826,28 @@ func cleanupFailedProvision(dynClient client.Client, cd *hivev1.ClusterDeploymen
 		uninstaller, ibmCloudDestroyerErr = ibmcloud.New(logger, metadata)
 		if ibmCloudDestroyerErr != nil {
 			return ibmCloudDestroyerErr
+		}
+	case cd.Spec.Platform.PowerVS != nil:
+		// Create PowerVS Client
+		powerVSAPIKey := os.Getenv(constants.PowerVSAPIKeyEnvVar)
+		if powerVSAPIKey == "" {
+			return fmt.Errorf("no %s env var set, cannot proceed", constants.PowerVSAPIKeyEnvVar)
+		}
+		metadata := &installertypes.ClusterMetadata{
+			InfraID:     infraID,
+			ClusterName: cd.Spec.ClusterName,
+			ClusterPlatformMetadata: installertypes.ClusterPlatformMetadata{
+				PowerVS: &installertypespowervs.Metadata{
+					BaseDomain: cd.Spec.BaseDomain,
+					Region:     cd.Spec.Platform.PowerVS.Region,
+					Zone:       cd.Spec.Platform.PowerVS.Zone,
+				},
+			},
+		}
+		var powervsDestroyerErr error
+		uninstaller, powervsDestroyerErr = powervs.New(logger, metadata)
+		if powervsDestroyerErr != nil {
+			return powervsDestroyerErr
 		}
 	default:
 		logger.Warn("unknown platform for re-try cleanup")

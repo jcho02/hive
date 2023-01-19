@@ -107,6 +107,7 @@ const (
 	tryInstallOnceAnnotation = "hive.openshift.io/try-install-once"
 
 	regionUnknown = "unknown"
+	zoneUnknown   = "unknown"
 )
 
 // Add creates a new ClusterDeployment controller and adds it to the manager with default RBAC.
@@ -1825,6 +1826,13 @@ func generateDeprovision(cd *hivev1.ClusterDeployment) (*hivev1.ClusterDeprovisi
 			Region:               cd.Spec.Platform.AlibabaCloud.Region,
 			BaseDomain:           cd.Spec.BaseDomain,
 		}
+	case cd.Spec.Platform.PowerVS != nil:
+		req.Spec.Platform.PowerVS = &hivev1.PowerVSClusterDeprovision{
+			CredentialsSecretRef: cd.Spec.Platform.PowerVS.CredentialsSecretRef,
+			Region:               cd.Spec.Platform.PowerVS.Region,
+			Zone:                 cd.Spec.Platform.PowerVS.Zone,
+			BaseDomain:           cd.Spec.BaseDomain,
+		}
 	default:
 		return nil, errors.New("unsupported cloud provider for deprovision")
 	}
@@ -2199,6 +2207,8 @@ func getClusterPlatform(cd *hivev1.ClusterDeployment) string {
 		return constants.PlatformNone
 	case cd.Spec.Platform.Ovirt != nil:
 		return constants.PlatformOvirt
+	case cd.Spec.Platform.PowerVS != nil:
+		return constants.PlatformPowerVS
 	}
 	return constants.PlatformUnknown
 }
@@ -2216,8 +2226,19 @@ func getClusterRegion(cd *hivev1.ClusterDeployment) string {
 		return cd.Spec.Platform.GCP.Region
 	case cd.Spec.Platform.IBMCloud != nil:
 		return cd.Spec.Platform.IBMCloud.Region
+	case cd.Spec.Platform.PowerVS != nil:
+		return constants.PlatformPowerVS
 	}
 	return regionUnknown
+}
+
+// getClusterZone returns the zone of a given ClusterDeployment
+func getClusterZone(cd *hivev1.ClusterDeployment) string {
+	switch {
+	case cd.Spec.Platform.PowerVS != nil:
+		return cd.Spec.Platform.PowerVS.Zone
+	}
+	return zoneUnknown
 }
 
 func LoadReleaseImageVerifier(config *rest.Config) (verify.Interface, error) {

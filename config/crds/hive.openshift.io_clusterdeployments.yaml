@@ -772,6 +772,33 @@ spec:
                     - ovirt_cluster_id
                     - storage_domain_id
                     type: object
+                  powervs:
+                    description: PowerVS is the configuration used when installing
+                      on PowerVS
+                    properties:
+                      credentialsSecretRef:
+                        description: CredentialsSecretRef refers to a secret that
+                          contains IBM Cloud account access credentials.
+                        properties:
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      region:
+                        description: Region specifies the PowerVS region where the
+                          cluster will be created
+                        type: string
+                      zone:
+                        description: Zone specifies the PowerVS zone where the cluster
+                          will be created
+                        type: string
+                    required:
+                    - credentialsSecretRef
+                    - region
+                    - zone
+                    type: object
                   vsphere:
                     description: VSphere is the configuration used when installing
                       on vSphere

@@ -18,6 +18,7 @@ const (
 	PlatformNone           = "none-platform"
 	PlatformOpenStack      = "openstack"
 	PlatformOvirt          = "ovirt"
+	PlatformPowerVS        = "powervs"
 	PlatformUnknown        = "unknown"
 	PlatformVSphere        = "vsphere"
 
@@ -456,6 +457,15 @@ const (
 
 	// IBMCloudCredentialsSecretKey is a key used to store IBM environment variable credentials
 	IBMCloudCredentialsEnvSecretKey = "ibm-credentials.env"
+
+	// PowerVSAPIKeySecretKey is a key used to store an api key token within a secret
+	PowerVSAPIKeySecretKey = "powervs_api_key"
+
+	// PowerVSAPIKeyEnvVar is the name of the environment variable containing a PowerVS API key.
+	PowerVSAPIKeyEnvVar = "IC_API_KEY"
+
+	// PowerVSCredentialsSecretKey is a key used to store an api key token within a secret
+	PowerVSCredentialsEnvSecretKey = "powervs-credentials.env"
 
 	// DisableCreationWebHookForDisasterRecovery is a label that can be added to CRs for which we
 	// normally validate creation. Specific hooks can be disabled by setting this label to (string)

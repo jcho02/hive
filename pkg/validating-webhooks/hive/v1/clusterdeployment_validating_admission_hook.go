@@ -309,6 +309,9 @@ func (a *ClusterDeploymentValidatingAdmissionHook) validateCreate(admissionSpec 
 		if cd.Spec.Provisioning.ManifestsConfigMapRef != nil && cd.Spec.Provisioning.ManifestsSecretRef != nil {
 			allErrs = append(allErrs, field.Invalid(specPath.Child("provisioning", "manifestsConfigMapRef"), cd.Spec.Provisioning.ManifestsConfigMapRef.Name, "manifestsConfigMapRef and manifestsSecretRef are mutually exclusive"))
 		}
+		if cd.Spec.Platform.PowerVS != nil && cd.Spec.Provisioning.ManifestsConfigMapRef == nil && cd.Spec.Provisioning.ManifestsSecretRef == nil {
+			allErrs = append(allErrs, field.Required(specPath.Child("provisioning"), "must specify manifestsConfigMapRef or manifestsSecretRef when platform is PowerVS"))
+		}
 	}
 
 	if cd.Spec.ClusterInstallRef != nil {
@@ -549,6 +552,19 @@ func validateClusterPlatform(path *field.Path, platform hivev1.Platform) field.E
 		}
 		if ibmCloud.Region == "" {
 			allErrs = append(allErrs, field.Required(ibmCloudPath.Child("region"), "must specify IBM region"))
+		}
+	}
+	if powervs := platform.PowerVS; powervs != nil {
+		numberOfPlatforms++
+		powervsPath := path.Child("powers")
+		if powervs.CredentialsSecretRef.Name == "" {
+			allErrs = append(allErrs, field.Required(powervsPath.Child("credentialsSecretRef", "name"), "must specify secrets for PowerVS access"))
+		}
+		if powervs.Region == "" {
+			allErrs = append(allErrs, field.Required(powervsPath.Child("region"), "must specify PowerVS region"))
+		}
+		if powervs.Zone == "" {
+			allErrs = append(allErrs, field.Required(powervsPath.Child("zone"), "must specify PowerVS zone"))
 		}
 	}
 	if platform.BareMetal != nil {
