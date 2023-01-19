@@ -3,7 +3,6 @@ package createcluster
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -622,7 +621,7 @@ func (o *Options) GenerateObjects() ([]runtime.Object, error) {
 		AdditionalTrustBundle: additionalTrustBundle,
 	}
 	if o.Adopt {
-		kubeconfigBytes, err := ioutil.ReadFile(o.AdoptAdminKubeConfig)
+		kubeconfigBytes, err := os.ReadFile(o.AdoptAdminKubeConfig)
 		if err != nil {
 			return nil, err
 		}
@@ -634,7 +633,7 @@ func (o *Options) GenerateObjects() ([]runtime.Object, error) {
 		builder.AdoptAdminPassword = o.AdoptAdminPassword
 	}
 	if len(o.BoundServiceAccountSigningKeyFile) != 0 {
-		signingKey, err := ioutil.ReadFile(o.BoundServiceAccountSigningKeyFile)
+		signingKey, err := os.ReadFile(o.BoundServiceAccountSigningKeyFile)
 		if err != nil {
 			return nil, fmt.Errorf("error reading %s: %v", o.BoundServiceAccountSigningKeyFile, err)
 		}
@@ -747,7 +746,7 @@ func (o *Options) GenerateObjects() ([]runtime.Object, error) {
 		}
 		caCerts := [][]byte{}
 		for _, cert := range filepath.SplitList(vsphereCACerts) {
-			caCert, err := ioutil.ReadFile(cert)
+			caCert, err := os.ReadFile(cert)
 			if err != nil {
 				return nil, fmt.Errorf("error reading %s: %w", cert, err)
 			}
@@ -807,7 +806,7 @@ func (o *Options) GenerateObjects() ([]runtime.Object, error) {
 		}
 		caCerts := [][]byte{}
 		for _, cert := range filepath.SplitList(o.OvirtCACerts) {
-			caCert, err := ioutil.ReadFile(cert)
+			caCert, err := os.ReadFile(cert)
 			if err != nil {
 				return nil, fmt.Errorf("error reading %s: %w", cert, err)
 			}
@@ -852,12 +851,12 @@ func (o *Options) GenerateObjects() ([]runtime.Object, error) {
 	}
 
 	if len(o.ServingCert) != 0 {
-		servingCert, err := ioutil.ReadFile(o.ServingCert)
+		servingCert, err := os.ReadFile(o.ServingCert)
 		if err != nil {
 			return nil, fmt.Errorf("error reading %s: %v", o.ServingCert, err)
 		}
 		builder.ServingCert = string(servingCert)
-		servingCertKey, err := ioutil.ReadFile(o.ServingCertKey)
+		servingCertKey, err := os.ReadFile(o.ServingCertKey)
 		if err != nil {
 			return nil, fmt.Errorf("error reading %s: %v", o.ServingCertKey, err)
 		}
@@ -895,7 +894,7 @@ func (o *Options) getSSHPublicKey() (string, error) {
 		return o.SSHPublicKey, nil
 	}
 	if len(o.SSHPublicKeyFile) > 0 {
-		data, err := ioutil.ReadFile(o.SSHPublicKeyFile)
+		data, err := os.ReadFile(o.SSHPublicKeyFile)
 		if err != nil {
 			o.log.Error("Cannot read SSH public key file")
 			return "", err
@@ -910,7 +909,7 @@ func (o *Options) getSSHPublicKey() (string, error) {
 
 func (o *Options) getSSHPrivateKey() (string, error) {
 	if len(o.SSHPrivateKeyFile) > 0 {
-		data, err := ioutil.ReadFile(o.SSHPrivateKeyFile)
+		data, err := os.ReadFile(o.SSHPrivateKeyFile)
 		if err != nil {
 			o.log.Error("Cannot read SSH private key file")
 			return "", err
@@ -924,7 +923,7 @@ func (o *Options) getSSHPrivateKey() (string, error) {
 
 func (o *Options) getAdditionalTrustBundle() (string, error) {
 	if len(o.AdditionalTrustBundle) > 0 {
-		data, err := ioutil.ReadFile(o.AdditionalTrustBundle)
+		data, err := os.ReadFile(o.AdditionalTrustBundle)
 		if err != nil {
 			o.log.Error("Cannot read AdditionalTrustBundle file")
 			return "", err
@@ -946,7 +945,7 @@ func (o *Options) getManifestFileBytes() (map[string][]byte, error) {
 	}
 	fileData := map[string][]byte{}
 	if o.ManifestsDir != "" {
-		files, err := ioutil.ReadDir(o.ManifestsDir)
+		files, err := os.ReadDir(o.ManifestsDir)
 		if err != nil {
 			return nil, errors.Wrap(err, "could not read manifests directory")
 		}
@@ -954,7 +953,7 @@ func (o *Options) getManifestFileBytes() (map[string][]byte, error) {
 			if file.IsDir() {
 				continue
 			}
-			data, err := ioutil.ReadFile(filepath.Join(o.ManifestsDir, file.Name()))
+			data, err := os.ReadFile(filepath.Join(o.ManifestsDir, file.Name()))
 			if err != nil {
 				return nil, errors.Wrapf(err, "could not read manifest file %q", file.Name())
 			}
