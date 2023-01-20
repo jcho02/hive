@@ -28,7 +28,7 @@ type powerVSDeprovisionOptions struct {
 func NewDeprovisionPowerVSCommand() *cobra.Command {
 	opt := &powerVSDeprovisionOptions{}
 	cmd := &cobra.Command{
-		Use:   "powervs INFRAID --region=us-east --zone=us-east --base-domain=BASE_DOMAIN --cluster-name=CLUSTERNAME",
+		Use:   "powervs INFRAID --region=us-south --zone=dal12 --base-domain=BASE_DOMAIN --cluster-name=CLUSTERNAME",
 		Short: "Deprovision PowerVS assets (as created by openshift-installer)",
 		Args:  cobra.ExactArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {

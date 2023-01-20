@@ -391,14 +391,14 @@ func (o *Options) Complete(cmd *cobra.Command, args []string) error {
 		case cloudIBM:
 			o.Region = "us-east"
 		case cloudPowerVS:
-			o.Region = "us-east"
+			o.Region = "us-south"
 		}
 	}
 
 	if o.Zone == "" {
 		switch o.Cloud {
 		case cloudPowerVS:
-			o.Region = "us-east"
+			o.Region = "dal12"
 		}
 	}
 

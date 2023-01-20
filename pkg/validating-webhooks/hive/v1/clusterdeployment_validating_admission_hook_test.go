@@ -169,8 +169,8 @@ func validPowerVSClusterDeployment() *hivev1.ClusterDeployment {
 	cd := clusterDeploymentTemplate()
 	cd.Spec.Platform.PowerVS = &hivev1powervs.Platform{
 		CredentialsSecretRef: corev1.LocalObjectReference{Name: "fake-creds-secret"},
-		Region:               "us-east",
-		Zone:                 "us-east",
+		Region:               "us-south",
+		Zone:                 "dal12",
 	}
 	cd.Spec.Provisioning.ManifestsSecretRef = &corev1.LocalObjectReference{Name: "fake-manifests-secret"}
 	return cd

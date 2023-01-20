@@ -10,7 +10,7 @@ import (
 	"k8s.io/apimachinery/pkg/util/intstr"
 
 	installertypes "github.com/openshift/installer/pkg/types"
-	installerpowervs "github.com/openshift/installer/pkg/types/powervs"
+	powervsinstallertypes "github.com/openshift/installer/pkg/types/powervs"
 
 	hivev1 "github.com/openshift/hive/apis/hive/v1"
 	hivev1powervs "github.com/openshift/hive/apis/hive/v1/powervs"
@@ -69,18 +69,21 @@ func (p *PowerVSBuilder) addMachinePoolPlatform(o *Builder, mp *hivev1.MachinePo
 	mp.Spec.Platform.PowerVS = &hivev1powervs.MachinePool{
 		MemoryGiB:  32,
 		Processors: intstr.FromString("0.5"),
-		ProcType:   machinev1.PowerVSProcessorTypeShared,
 		SysType:    "s922",
 	}
 }
 
 func (p *PowerVSBuilder) addInstallConfigPlatform(o *Builder, ic *installertypes.InstallConfig) {
 	ic.Platform = installertypes.Platform{
-		PowerVS: &installerpowervs.Platform{
+		PowerVS: &powervsinstallertypes.Platform{
 			Region: p.Region,
 			Zone:   p.Zone,
 		},
 	}
+	// Used for both control plane and workers.
+	mpp := &powervsinstallertypes.MachinePool{}
+	ic.ControlPlane.Platform.PowerVS = mpp
+	ic.Compute[0].Platform.PowerVS = mpp
 }
 
 func (p *PowerVSBuilder) CredsSecretName(o *Builder) string {
